@@ -1,31 +1,28 @@
-getOverview more information about seattle
-getOverview what's it like in seattle
-getOverview tell me some facts about seattle 
-getOverview facts about seattle 
-getOverview overview of seattle
-getOverview seattle facts 
-getOverview seattle overview
+getAddress wo muss ich hin
+getAddress nenne mir die Adresse
 
-getTopFiveIntent tell me the top five things 
-getTopFiveIntent top five things to do 
-getTopFiveIntent give me the top five 
-getTopFiveIntent the top five
-getTopFiveIntent top five
-getTopFiveIntent the top five things to do
+getNextTicket nenne mir die Nummer
+getNextTicket nenne mir das Ticket
+getNextTicket nenne mir die Wartenummer
+getNextTicket was ist die nächste Nummer
+getNextTicket was ist das nächste Ticket
+getNextTicket was ist die nächste Wartenummer
 
-getAttractionIntent tell me a good attraction 
-getAttractionIntent where should I go
-getAttractionIntent an attraction
-getAttractionIntent attractions 
+getOpeningHours nenne mir die Öffnungszeiten
+getOpeningHours wann hast du offen
 
-getMoreInfoIntent open number {attraction}
-getMoreInfoIntent number {attraction}
-getMoreInfoIntent {attraction}
+getPhoneNumber was ist die Telefonnummer
+getPhoneNumber hast du eine Telefonnummer
+getPhoneNumber kann ich dich anrufen
 
-getNewsIntent tell me the local news
-getNewsIntent what is the latest news 
-getNewsIntent the local news
-getNewsIntent the latest news 
-getNewsIntent the news
-getNewsIntent news
-getNewsIntent local news
+getWaitingPeople wie viele Leute warten
+getWaitingPeople wie lang ist die Schlange
+getWaitingPeople wie voll ist der Warteraum
+getWaitingPeople ist es voll
+getWaitingPeople ist es leer
+
+getWaitingTime wie lange muss ich warten
+getWaitingTime dauert es lange
+getWaitingTime geht es schnell
+getWaitingTime wie schnell geht es
+getWaitingTime nenne mir die Wartezeit

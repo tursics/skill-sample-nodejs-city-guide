@@ -1,15 +1,31 @@
-{  
-  "intents": [  
-    { "intent": "getOverview", "slots": [] },  
-    { "intent": "getTopFiveIntent", "slots": [] },  
-    { "intent": "getAttractionIntent", "slots": [] },  
-    { "intent": "getMoreInfoIntent", "slots": [{ "name": "attraction", "type": "AMAZON.NUMBER" }] },  
-    { "intent": "getNewsIntent", "slots": [] },  
-    { "intent": "AMAZON.YesIntent", "slots": [] },  
-    { "intent": "AMAZON.NoIntent", "slots": [] },  
-    { "intent": "AMAZON.HelpIntent", "slots": [] }, 
-    { "intent": "AMAZON.StopIntent", "slots": [] },
-    { "intent": "AMAZON.CancelIntent", "slots": [] }, 
-    { "intent": "AMAZON.RepeatIntent", "slots": [] }
-  ]  
+{
+  "intents": [
+    {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "getAddress"
+    },
+    {
+      "intent": "getNextTicket"
+    },
+    {
+      "intent": "getOpeningHours"
+    },
+    {
+      "intent": "getPhoneNumber"
+    },
+    {
+      "intent": "getWaitingPeople"
+    },
+    {
+      "intent": "getWaitingTime"
+    }
+  ]
 }
