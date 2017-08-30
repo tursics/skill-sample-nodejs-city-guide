@@ -1,7 +1,7 @@
 {
-  "name": "skill-sample-nodejs-calendar-reader",
+  "name": "wait-moers-alexa",
   "version": "1.0.0",
-  "description": "A simple calendar reading skill.",
+  "description": "Ein Alexa-Skill für den Bürgerservice in Moers",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,12 +9,14 @@
   "keywords": [
     "alexa",
     "skill",
-    "fact"
+    "Moers",
+	"Bürgerservice",
+	"Wartezeit",
+	"Öffnungszeiten"
   ],
-  "author": "Amazon.com",
+  "author": "Thomas Tursics",
   "license": "Apache-2.0",
   "dependencies": {
-    "alexa-sdk": "^1.0.0",
-    "ical": "^0.5.0"
+    "alexa-sdk": "^1.0.10"
   }
 }

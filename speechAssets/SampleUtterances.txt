@@ -19,7 +19,9 @@ getWaitingPeople wie viele Leute warten
 getWaitingPeople wie lang ist die Schlange
 getWaitingPeople wie voll ist der Warteraum
 getWaitingPeople ist es voll
+getWaitingPeople ist es heute voll
 getWaitingPeople ist es leer
+getWaitingPeople ist es heute leer
 
 getWaitingTime wie lange muss ich warten
 getWaitingTime dauert es lange
