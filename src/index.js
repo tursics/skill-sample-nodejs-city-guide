@@ -1,21 +1,15 @@
 /*jslint browser: true*/
 /*global require*/
-
 var Alexa = require('alexa-sdk');
-var http = require('http');
+var https = require('https');
 
 var states = {
     SEARCHMODE: '_SEARCHMODE',
     TOPFIVE: '_TOPFIVE'
 };
 
-var location = "Moers";
-
-var numberOfResults = 3;
-
-var APIKey = "4844d21f760b47359945751b9f875877";
-
 var dict = {
+	cardTitle: 'Bürgerservice Moers',
 	welcomeMessage: "Bürgerservice Moers. Du kannst mich zum Beispiel nach den Öffnungszeiten und den aktuellen Wartezeiten im Bürgerservice fragen. Los geht's!",
 	welcomeRepromt: "Du kannst mich zum Beispiel nach den Öffnungszeiten und den aktuellen Wartezeiten im Bürgerservice fragen. Was möchtest du wissen?",
 	helpMessage: "Du kannst mich zum Beispiel nach folgendem Fragen: Wann hast du offen? Nenne mir die Wartenummer. Ist es heute voll?  Was möchtest du als nächstes tun?",
@@ -24,25 +18,18 @@ var dict = {
 	openingHoursMessage: "Der Bürgerservice hat montags bis freitags von 8 bis 13 Uhr, donnerstags sogar bis 18 Uhr geöffnet. Am Samstag hat der Bürgerservice von 9 bis 12:30 Uhr geöffnet.",
 	phoneNumberMessage: "Den Bürgerservice kannst du unter der Telefonnummer 0 / 28 / 41 / 201 / 648 erreichen.",
 	phoneNumberPromt: "Den Bürgerservice kannst du unter der Telefonnummer 0 28 41 / 201-648 erreichen.",
+	nextTicketMessage: 'Die aktuelle Wartenummer im Bürgerservice lautet ##.',
+	nextTicketPromt: 'Aktuelle Wartenummer: ##',
+	errorServiceClosed: 'Das kann ich dir gerade nicht sagen. Der Bürgerservice hat zur Zeit geschlossen.',
 	todo: "Das ist eine gute Frage. Das kann ich dir in Kürze beantworten."
 };
-
-var moreInformation = "See your  Alexa app for  more  information.";
-var tryAgainMessage = "please try again.";
-var noAttractionErrorMessage = "What attraction was that? " + tryAgainMessage;
-var topFiveMoreInfo = " You can tell me a number for more information. For example, open number one.";
-var getMoreInfoRepromtMessage = "What number attraction would you like to hear about?";
-var getMoreInfoMessage = "OK, " + getMoreInfoRepromtMessage;
-var newsIntroMessage = "These are the " + numberOfResults + " most recent " + location + " headlines, you can read more on your Alexa app. ";
-var hearMoreMessage = "Would you like to hear about another top thing that you can do in " + location + "?";
-var newline = "\n";
 
 var output = "";
 
 var alexa;
 
 // Create a web request and handle the response.
-function httpGet(callback) {
+function httpGet(that, callback) {
 	'use strict';
 
 	var options = {
@@ -51,14 +38,14 @@ function httpGet(callback) {
 		path: '/api/moers/v1/wait/current',
 		method: 'GET'
 	},
-		req = http.request(options, (res) => {
+		req = https.request(options, (res) => {
 		var body = '';
 
 		res.on('data', (d) => {
 			body += d;
 		});
 		res.on('end', function () {
-			callback(body);
+			callback(that, body);
 		});
 	});
 	req.end();
@@ -142,18 +129,18 @@ var startWaitingHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
 		'use strict';
 
 		output = dict.addressMessage;
-        this.emit(':tellWithCard', output, location, dict.addressMessage);
+        this.emit(':tellWithCard', output, dict.cardTitle, dict.addressMessage);
     },
     'getOpeningHours': function () {
 		'use strict';
 
 		output = dict.openingHoursMessage;
-        this.emit(':tellWithCard', output, location, dict.openingHoursMessage);
+        this.emit(':tellWithCard', output, dict.cardTitle, dict.openingHoursMessage);
     },
     'getPhoneNumber': function () {
 		'use strict';
 
-        this.emit(':tellWithCard', dict.phoneNumberMessage, location, dict.phoneNumberPromt);
+        this.emit(':tellWithCard', dict.phoneNumberMessage, dict.cardTitle, dict.phoneNumberPromt);
     },
     'AMAZON.YesIntent': function () {
 		'use strict';
@@ -181,25 +168,17 @@ var startWaitingHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
     'getNextTicket': function () {
 		'use strict';
 
-        this.emit(':ask', dict.todo, dict.todo);
-		return;
-
-		httpGet(function (response) {
-			// Parse the response into a JSON object ready to be formatted.
+		httpGet(this, function (that, response) {
 			var responseData = JSON.parse(response);
-			var cardContent = "Data provided by New York Times\n\n";
 
-            // Check if we have correct data, If not create an error speech out to try again.
-            if (responseData == null) {
-				output = "There was a problem with getting data please try again";
-			} else {
-				output = responseData.ticketnumber;
-                output += " See your Alexa app for more information.";
-            }
+            if ((responseData !== null) && (0 !== responseData.ticketnumber)) {
+				output = dict.nextTicketMessage.replace('##', responseData.ticketnumber)
+				cardContent = dict.nextTicketPromt.replace('##', responseData.ticketnumber)
 
-            var cardTitle = location + " News";
-
-            alexa.emit(':tellWithCard', output, cardTitle, cardContent);
+				that.emit(':tellWithCard', output, dict.cardTitle, cardContent);
+            } else {
+				that.emit(':tell', dict.errorServiceClosed);
+			}
         });
     },
     'getWaitingPeople': function () {
