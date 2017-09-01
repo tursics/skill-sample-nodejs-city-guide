@@ -20,8 +20,11 @@ var dict = {
 	phoneNumberPromt: "Den Bürgerservice kannst du unter der Telefonnummer 0 28 41 / 201-648 erreichen.",
 	nextTicketMessage: 'Die aktuelle Wartenummer im Bürgerservice lautet ##.',
 	nextTicketPromt: 'Aktuelle Wartenummer: ##',
-	errorServiceClosed: 'Das kann ich dir gerade nicht sagen. Der Bürgerservice hat zur Zeit geschlossen.',
-	todo: "Das ist eine gute Frage. Das kann ich dir in Kürze beantworten."
+	numberPeopleMessage: 'Im Bürgerservice warten aktuell ## Leute.',
+	numberPeoplePromt: 'Wartende Leute: ##',
+	waitingTimeMessage: 'Du musst aktuell ## Minuten im Bürgerservice warten.',
+	waitingTimePromt: 'Wartezeit: ## Minuten',
+	errorServiceClosed: 'Das kann ich dir gerade nicht sagen. Der Bürgerservice hat zur Zeit geschlossen.'
 };
 
 var output = "";
@@ -184,14 +187,34 @@ var startWaitingHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
     'getWaitingPeople': function () {
 		'use strict';
 
-        this.emit(':ask', dict.todo, dict.todo);
-		return;
+		httpGet(this, function (that, response) {
+			var responseData = JSON.parse(response);
+
+            if ((responseData !== null) && (0 !== responseData.ticketnumber)) {
+				output = dict.numberPeopleMessage.replace('##', responseData.numberofpeople)
+				cardContent = dict.numberPeoplePromt.replace('##', responseData.numberofpeople)
+
+				that.emit(':tellWithCard', output, dict.cardTitle, cardContent);
+            } else {
+				that.emit(':tell', dict.errorServiceClosed);
+			}
+        });
 	},
     'getWaitingTime': function () {
 		'use strict';
 
-        this.emit(':ask', dict.todo, dict.todo);
-		return;
+		httpGet(this, function (that, response) {
+			var responseData = JSON.parse(response);
+
+            if ((responseData !== null) && (0 !== responseData.ticketnumber)) {
+				output = dict.waitingTimeMessage.replace('##', responseData.waitingtime)
+				cardContent = dict.waitingTimePromt.replace('##', responseData.waitingtime)
+
+				that.emit(':tellWithCard', output, dict.cardTitle, cardContent);
+            } else {
+				that.emit(':tell', dict.errorServiceClosed);
+			}
+        });
 	},
     'AMAZON.RepeatIntent': function () {
         this.emit(':ask', output, dict.helpMessage);
