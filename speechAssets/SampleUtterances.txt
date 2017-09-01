@@ -7,9 +7,16 @@ getNextTicket nenne mir die Wartenummer
 getNextTicket was ist die nächste Nummer
 getNextTicket was ist das nächste Ticket
 getNextTicket was ist die nächste Wartenummer
+getNextTicket welche Nummer ist als nächstes dran
+getNextTicket welches Ticket ist als nächstes dran
+getNextTicket welche Wartenummer ist als nächstes dran
+getNextTicket welche Nummer kommt als nächstes
+getNextTicket welches Ticket kommt als nächstes
+getNextTicket welche Wartenummer kommt als nächstes
 
 getOpeningHours nenne mir die Öffnungszeiten
 getOpeningHours wann hast du offen
+getOpeningHours wann hat er geöffnet
 
 getPhoneNumber was ist die Telefonnummer
 getPhoneNumber hast du eine Telefonnummer
@@ -22,6 +29,8 @@ getWaitingPeople ist es voll
 getWaitingPeople ist es heute voll
 getWaitingPeople ist es leer
 getWaitingPeople ist es heute leer
+getWaitingPeople muss ich lange warten
+getWaitingPeople muss ich heute lange warten
 
 getWaitingTime wie lange muss ich warten
 getWaitingTime dauert es lange
