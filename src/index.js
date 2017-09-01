@@ -22,7 +22,8 @@ var dict = {
 	goodbyeMessage: "OK, bis zum nächsten Mal.",
 	addressMessage: "Der Bürgerservice befindet sich im Rathaus Moers. Die genaue Adresse lautet Rathausplatz 1 in 47 441, Moers",
 	openingHoursMessage: "Der Bürgerservice hat montags bis freitags von 8 bis 13 Uhr, donnerstags sogar bis 18 Uhr geöffnet. Am Samstag hat der Bürgerservice von 9 bis 12:30 Uhr geöffnet.",
-	phoneNumberMessage: "Den Bürgerservice kannst du unter der Telefonnummer 0 28 41 / 201 648 erreichen. 201 648.",
+	phoneNumberMessage: "Den Bürgerservice kannst du unter der Telefonnummer 0 / 28 / 41 / 201 / 648 erreichen.",
+	phoneNumberPromt: "Den Bürgerservice kannst du unter der Telefonnummer 0 28 41 / 201-648 erreichen.",
 	todo: "Das ist eine gute Frage. Das kann ich dir in Kürze beantworten."
 };
 
@@ -152,8 +153,7 @@ var startWaitingHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
     'getPhoneNumber': function () {
 		'use strict';
 
-		output = dict.phoneNumberMessage;
-        this.emit(':tellWithCard', output, location, dict.phoneNumberMessage);
+        this.emit(':tellWithCard', dict.phoneNumberMessage, location, dict.phoneNumberPromt);
     },
     'AMAZON.YesIntent': function () {
 		'use strict';
