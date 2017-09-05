@@ -1,8 +1,9 @@
 /*jslint browser: true*/
-/*global require*/
+/*global require,exports*/
 var Alexa = require('alexa-sdk');
 var https = require('https');
 
+var APP_ID = 'amzn1.ask.skill.fd0ffe88-bbba-4c53-a117-d99084dd38ac';
 var states = {
     SEARCHMODE: '_SEARCHMODE',
     TOPFIVE: '_TOPFIVE'
@@ -172,11 +173,12 @@ var startWaitingHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
 		'use strict';
 
 		httpGet(this, function (that, response) {
-			var responseData = JSON.parse(response);
+			var responseData = JSON.parse(response),
+				cardContent = '';
 
             if ((responseData !== null) && (0 !== responseData.ticketnumber)) {
-				output = dict.nextTicketMessage.replace('##', responseData.ticketnumber)
-				cardContent = dict.nextTicketPromt.replace('##', responseData.ticketnumber)
+				output = dict.nextTicketMessage.replace('##', responseData.ticketnumber);
+				cardContent = dict.nextTicketPromt.replace('##', responseData.ticketnumber);
 
 				that.emit(':tellWithCard', output, dict.cardTitle, cardContent);
             } else {
@@ -188,11 +190,12 @@ var startWaitingHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
 		'use strict';
 
 		httpGet(this, function (that, response) {
-			var responseData = JSON.parse(response);
+			var responseData = JSON.parse(response),
+				cardContent = '';
 
             if ((responseData !== null) && (0 !== responseData.ticketnumber)) {
-				output = dict.numberPeopleMessage.replace('##', responseData.numberofpeople)
-				cardContent = dict.numberPeoplePromt.replace('##', responseData.numberofpeople)
+				output = dict.numberPeopleMessage.replace('##', responseData.numberofpeople);
+				cardContent = dict.numberPeoplePromt.replace('##', responseData.numberofpeople);
 
 				that.emit(':tellWithCard', output, dict.cardTitle, cardContent);
             } else {
@@ -204,11 +207,12 @@ var startWaitingHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
 		'use strict';
 
 		httpGet(this, function (that, response) {
-			var responseData = JSON.parse(response);
+			var responseData = JSON.parse(response),
+				cardContent = '';
 
             if ((responseData !== null) && (0 !== responseData.ticketnumber)) {
-				output = dict.waitingTimeMessage.replace('##', responseData.waitingtime)
-				cardContent = dict.waitingTimePromt.replace('##', responseData.waitingtime)
+				output = dict.waitingTimeMessage.replace('##', responseData.waitingtime);
+				cardContent = dict.waitingTimePromt.replace('##', responseData.waitingtime);
 
 				that.emit(':tellWithCard', output, dict.cardTitle, cardContent);
             } else {
@@ -217,29 +221,42 @@ var startWaitingHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
         });
 	},
     'AMAZON.RepeatIntent': function () {
-        this.emit(':ask', output, dict.helpMessage);
+		'use strict';
+
+		this.emit(':ask', output, dict.helpMessage);
     },
     'AMAZON.CancelIntent': function () {
-        // Use this function to clear up and save any data needed between sessions
+		'use strict';
+
+		// Use this function to clear up and save any data needed between sessions
         this.emit(":tell", dict.goodbyeMessage);
     },
     'SessionEndedRequest': function () {
-        // Use this function to clear up and save any data needed between sessions
+		'use strict';
+
+		// Use this function to clear up and save any data needed between sessions
         this.emit('AMAZON.StopIntent');
     },
     'Unhandled': function () {
-        output = dict.helpMessage;
+		'use strict';
+
+		output = dict.helpMessage;
         this.emit(':ask', output, dict.welcomeRepromt);
     }
 });
 
 exports.handler = function (event, context, callback) {
-    alexa = Alexa.handler(event, context);
+	'use strict';
+
+	alexa = Alexa.handler(event, context);
+	alexa.appId = APP_ID;
     alexa.registerHandlers(newSessionHandlers, startWaitingHandlers);
     alexa.execute();
 };
 
 String.prototype.trunc =
     function (n) {
-        return this.substr(0, n - 1) + (this.length > n ? '&hellip;' : '');
+		'use strict';
+
+		return this.substr(0, n - 1) + (this.length > n ? '&hellip;' : '');
     };
